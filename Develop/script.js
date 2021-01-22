@@ -1,10 +1,12 @@
 var currentDay = $("#currentDay");
 var date = luxon.DateTime.local().toFormat('MMMM dd, yyyy');
-
-
-currentDay.append(date);
-
+var inputField = $(".taskInput");
 var hour = $(".time");
+
+
+
+
+
 
 
 
@@ -31,33 +33,80 @@ var hour = $(".time");
 
 
 
+
  var saveButton = $(".save");
 
 // when save button is clicked need to push to local storage
-
+// need to clear specific line of saved storage and replace with new value once clicked
 
 $(saveButton).on("click", function(){
- console.log(this);
- console.log($(this).prev().val());
  var listItems = JSON.parse(localStorage.getItem("items")) || [];
-
  var savedItem = $(this).prev().val();
  console.log(savedItem);
+ var savedItemIndex = $(this).prev().data("index")
+ console.log(savedItemIndex)
+ 
+ 
+//  console.log(listItems[2]);
+ $(listItems).pop(savedItemIndex)
+ console.log("spliced: " + listItems)
+
+
+ 
+ 
 
  listItems.push(savedItem);
  localStorage.setItem("items", JSON.stringify(listItems));
  
+ 
 })
 
-// populate items
+// populate items loop if possible
 
-function populateList (){
-var listItems = JSON.parse(localStorage.getItem("items")) || [];
-var itemList = $(".taskInput");
+function renderList (){
+var nine = $("#nine");
+nine.val(savedList[0]);
 
-$(itemList).each(function(index,listItems ){
+var ten = $("#ten");
+ten.val(savedList[1]);
 
-$(itemList).text(listItems)
+var eleven = $("#eleven");
+eleven.val(savedList[2]);
 
-})
+var tweleve = $("#tweleve");
+tweleve.val(savedList[3]);
+
+var thirteen = $("#thirteen");
+thirteen.val(savedList[4]);
+
+var fourteen = $("#fourteen");
+fourteen.val(savedList[5]);
+
+var fifteen = $("#fifteen");
+fifteen.val(savedList[6]);
+
+var sixteen = $("#sixteen");
+sixteen.val(savedList[7]);
+
+var seventeen = $("#seventeen");
+seventeen.val(savedList[8]);
 }
+
+var savedList = [];
+function init() {
+    // Get stored todos from localStorage
+    var storedTasks = JSON.parse(localStorage.getItem("items"));
+  
+    // If todos were retrieved from localStorage, update the todos array to it
+    if (storedTasks !== null) {
+      savedList = storedTasks;
+    }
+    console.log(savedList);
+  
+    // // This is a helper function that will render todos to the DOM
+    renderList();
+  }
+  init();
+  currentDay.append(date);
+  $(".taskInput").css({"font-size":"200%", "text-align":"center"});
+  

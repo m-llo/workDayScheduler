@@ -18,10 +18,10 @@ var hour = $(".time");
     if(hr < currentHour){
         $(taskInput).css("background-color","#A9A9A9")
         
-
+// coming up
     } else if (hr > currentHour){
         $(taskInput).css("background-color","green")
-
+// current hour
     }else {
         $(taskInput).css("background-color","red")
 
@@ -31,21 +31,33 @@ var hour = $(".time");
 
 
 
- var saveButton = $("#save");
+ var saveButton = $(".save");
 
 // when save button is clicked need to push to local storage
-function saveItem (){
 
+
+$(saveButton).on("click", function(){
+ console.log(this);
+ console.log($(this).prev().val());
  var listItems = JSON.parse(localStorage.getItem("items")) || [];
 
- var savedItem = $(this).prev()
+ var savedItem = $(this).prev().val();
  console.log(savedItem);
 
  listItems.push(savedItem);
  localStorage.setItem("items", JSON.stringify(listItems));
  
+})
 
-};
-$(saveButton).on("click", function(){
-    saveItem()
-});
+// populate items
+
+function populateList (){
+var listItems = JSON.parse(localStorage.getItem("items")) || [];
+var itemList = $(".taskInput");
+
+$(itemList).each(function(index,listItems ){
+
+$(itemList).text(listItems)
+
+})
+}

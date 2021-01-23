@@ -2,80 +2,37 @@ var currentDay = $("#currentDay");
 var date = luxon.DateTime.local().toFormat('MMMM dd, yyyy');
 var inputField = $(".taskInput");
 var hour = $(".time");
-var savedList = [" ", " ", " ", " ", " ", " ", " ", " ", " ",];
+var savedList = [];
+var saveButton = $(".save");
 
-
-
-
-
-
-
-// need to change background color of input div depending on the time of day
 
 $(".taskInput").each(function (index, taskInput) {
     var hr = $(taskInput).data("time")
     var currentHour = new Date().getHours();
-    console.log(currentHour)
-    // already happend
     if (hr < currentHour) {
         $(taskInput).css("background-color", "#A9A9A9")
-
-        // coming up
     } else if (hr > currentHour) {
         $(taskInput).css("background-color", "green")
-        // current hour
     } else {
         $(taskInput).css("background-color", "red")
-
     }
-
 });
 
 
-
-
-var saveButton = $(".save");
-
-// when save button is clicked need to push to local storage
-// need to clear specific line of saved storage and replace with new value once clicked
-
 $(saveButton).on("click", function () {
-    var listItems = JSON.parse(localStorage.getItem("items"));
-    var list = [...listItems];
-    var savedItem = $(this).prev().val();
-    // var savedItemIndex = $(this).prev().data("index");
-    var savedItemIndex = $(this).prev().attr("data-index");
-    savedItemIndex = parseInt(savedItemIndex);
-    // var listItemsIndex = $.inArray(savedItem, list);
-    var listItemsIndex = list[savedItemIndex];
-    // var listItemsIndex = $(listItems).index()
+    
+        var listItems = JSON.parse(localStorage.getItem("items"));
+        console.log('local storage arr', listItems)
+        var userInputValue = $(this).prev().val();
+        var savedItemIndex = $(this).prev().attr("data-index");
+        savedItemIndex = parseInt(savedItemIndex);
+        console.log("html index", savedItemIndex)
+        listItems[savedItemIndex] = userInputValue
+        console.log(listItems)
 
+    localStorage.setItem("items", JSON.stringify(listItems));
+});
 
-
-    // console.log("coming from html user input", savedItem);
-    console.log(typeof savedItemIndex);
-    console.log("local storage index ", listItemsIndex);
-    console.log("coming from local storage ", list);
-
-
-    for (var i = 0; i < list.length; i++) {
-
-        if (listItemsIndex === savedItemIndex) {
-        //  var updatedList =  $(listItems[listItemsIndex]).replaceWith(savedItem)
-          var updatedList = list.splice(listItemsIndex, 1);
-        console.log("new list " , updatedList);
-            // localStorage.setItem("items", JSON.stringify(listItems));
-        }
-
-    };
-
-    // listItems.push(savedItem);
-    // localStorage.setItem("items", JSON.stringify(listItems));
-
-
-})
-
-// populate items loop if possible
 
 function renderList() {
     var nine = $("#nine");
@@ -110,22 +67,12 @@ function renderList() {
 function init() {
     // Get stored todos from localStorage
     var storedTasks = JSON.parse(localStorage.getItem("items"));
-    var initialArray = [" "," "," "," "," "," "," "," "," ",];
     // If todos were retrieved from localStorage, update the todos array to it
     if (storedTasks !== null) {
         savedList = storedTasks;
-    }else{
-
-        localStorage.setItem("items", JSON.stringify(initialArray))
-    
-
-    }
-    console.log(savedList);
-
-    // // This is a helper function that will render todos to the DOM
+    } 
     renderList();
 }
 init();
 currentDay.append(date);
-
 $(".taskInput").css({ "font-size": "200%", "text-align": "center" });

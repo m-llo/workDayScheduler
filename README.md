@@ -30,7 +30,7 @@ link to the repository
 https://github.com/m-llo/workDayScheduler
 
 here is a screenshot
-
+https://github.com/m-llo/workDayScheduler/blob/main/Assets/screenshot.JPG
 
 ## Grading Requirements
 
